@@ -1,0 +1,4 @@
+
+class Test_devopsuseful():
+    def test_assert():
+        assert 1 == 1
