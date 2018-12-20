@@ -48,15 +48,6 @@ class Test_devopsuseful():
         actual = devopsuseful.readCsv(data, **kw)
         assert expected2 == actual
 
-    @stcheck.mark.parametrize("types, hostname, expected", [
-        ([], "stageloadbalancer50", False),
-        ("mailserver", "prodmailserver4", True),
-        (["dev", ",", "jeff"], "dev1", True),
-        (8, "dev2", False),
-        (["all"], "whateveryouwant", True),
-        (["terminal"], "stageterminal25", True),        
-    ])
-
     @stcheck.mark.parametrize("command, kw, exception, expecteds", [
         (["echo"], {}, None, {"decoded":""}),
         (["echo"], {"split":"\n"}, None, {"decoded":"", "split":[]}),
