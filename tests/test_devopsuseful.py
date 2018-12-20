@@ -1,3 +1,5 @@
+import sys
+sys.append('/var/lib/jenkins/workspace/hello-world_master/st')
 import stcheck
 import devopsuseful
 import csv
