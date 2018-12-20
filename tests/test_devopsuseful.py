@@ -1,5 +1,5 @@
 import sys
-sys.append('/var/lib/jenkins/workspace/hello-world_master/st')
+sys.path.append('/var/lib/jenkins/workspace/hello-world_master/st')
 import stcheck
 import devopsuseful
 import csv
@@ -56,45 +56,8 @@ class Test_devopsuseful():
         (["all"], "whateveryouwant", True),
         (["terminal"], "stageterminal25", True),        
     ])
-    def test_isHostType(self, types, hostname, expected):
-        actual = devopsuseful.isHostType(types, hostname)
-        assert expected == actual
-
-    @stcheck.mark.parametrize("levels, hostname, expected", [
-        ([], "stageloadbalancer50", False),
-        ("prod", "prodmailserver4", True),
-        (["dev", ",", "jeff"], "developer1", True),
-        (8, "devrepository2", False),
-        (["all"], "whateveryouwant", True),
-        (["prod"], "prodterminal22", True),
-    ])
-    def test_isHostLevel(self, levels, hostname, expected):
-        actual = devopsuseful.isHostLevel(levels, hostname)
-        assert expected == actual
-
-    @stcheck.mark.parametrize("hostname, expected, expectedException", [
-        ("stageloadbalancer50", ("stage", "loadbalancer", 50), None),
-        ("prodmailserver4", ("prod", "mailserver", 4), None),
-        ("dev1", ("dev", "dev", 1), None),
-        ("dev22", ("dev", "dev", 22), None),
-        ("build3", ("build", "build", 3), None), # TODOPUPPET maybe terminal/build should still be level dev? What about build3 on the stage branch? Or should we rename it stagebuild3 and devbuild1 (with devdev1 as the new name for dev boxes or perhaps use devstpp)
-        ("terminal21", ("terminal", "terminal", 21), None), # TODOPUPPET maybe terminal/build should still be level dev?
-        ("buildstpay3", ("build", "stpay", 3), None),
-        ("stub18", None, Exception(r"Unexpected hostname \(stub18\). Doesn't follow naming convention")),
-        ("devloadbalancer2", ("dev", "loadbalancer", 2), None),
-        ("devterminal222", ("dev", "terminal", 222), None),
-    ])
-    def test_splitHostname(self, hostname, expected, expectedException):
-        with stcheck.raises(expectedException):
-            actual = devopsuseful.splitHostname(hostname)
-        if expectedException is None:
-            assert expected == actual
-
-        assert devopsuseful.splitHostname(hostname=None) == devopsuseful.splitHostname(hostname=platform.node())
 
     @stcheck.mark.parametrize("command, kw, exception, expecteds", [
-        (["cat", "/usr/local/devops/tests/data/utf8.txt"], {}, None, {"decoded":"A \xa310.99"}),
-        (["cat", "/usr/local/devops/tests/data/utf8.txt"], {"encoding":"latin-1"}, None, {"decoded":"A \xc2\xa310.99"}),
         (["echo"], {}, None, {"decoded":""}),
         (["echo"], {"split":"\n"}, None, {"decoded":"", "split":[]}),
         (["echo", "test"], {"split":"\n"}, None, {"decoded":"test", "split":["test"]}),
